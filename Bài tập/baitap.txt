@@ -1,0 +1,23 @@
+2.
+alter table SANPHAM
+add GHICHU varchar(20)
+
+3.
+alter table KHACHHANG
+add LOAIKH tinyint
+
+4.
+alter table SANPHAM
+alter column GHICHU varchar(100)
+
+5.
+alter table SANPHAM
+drop column GHICHU
+
+6.
+ALTER TABLE KHACHHANG  
+ALTER COLUMN LOAIKH VARCHAR(20)
+
+7.
+ALTER TABLE SANPHAM  
+ALTER COLUMN DVT NCHAR(10) NOT NULL CHECK (DVT IN( 'CAY','HOP','CAI','QUYEN','CHUC'))
