@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="main.css">
+    <title>Detail Restaurant</title>
+    <style>
+        body {
+            font-size: 18px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            }
+            th, td {
+        padding: 10px;
+        }
+        table {
+            margin-top: 40px;
+            margin-left: 25%;
+        }
+        .navigation-in-detail {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sum_title">
+            <div class="sum_title-container">
+                <div class="sum_title_title_div"><a class="sum_title_title" href="/"><h2>Restaurant Management</h2></a></div>
+            </div>
+        </div>
+
+        <div class="navigation-in-detail">
+            <a href="/">Home</a>
+                /
+                Detail-<span class="nav-restaurant-id">40530583</span>
+        </div>
+
+        <div class="create-restaurant-wrapper"><button type="button" class="btn btn-success create-restaurant-rate-btn">Thêm đánh giá</button></div>
+
+        <div class="res-detail-body">
+            <table style="width:50%">
+                <tbody  class="table-detail">
+                    <tr>
+                    <th>Restaurant_id</th>
+                    <td class="detail-restaurant-id">30075445</td>
+                    </tr>
+                    <tr>
+                    <th>Name</th>
+                    <td  class="detail-restaurant-name">Morris Park Bake Shop</td>
+                    </tr>
+                    <tr>
+                    <th>Cuisine</th>
+                    <td class="detail-restaurant-cuisine">Bakery</td>
+                    </tr>
+                    <tr>
+                    <th>Borough</th>
+                    <td class="detail-restaurant-borough">Bronx</td>
+                    </tr>
+                    <tr>
+                    <th>Address</th>
+                    <td>
+                        <strong>Building</strong> : <span class="detail-restaurant-building">1007</span>
+                        <br>
+                        <strong>Coord</strong> : [
+                            <span class="detail-restaurant-coord1">-73.856077</span>,
+                            <span class="detail-restaurant-coord2">-73.856077</span>
+                        ]
+                        <br>
+                        <strong>Street</strong> : <span class="detail-restaurant-street">Morris Park Ave</span>
+                        <br>
+                        <strong>Zipcode</strong> : <span class="detail-restaurant-zipcode">10462</span>
+                    </td>
+                    </tr>
+                    <tr>
+                        <th class="grade-row" rowspan="6">Grades</th>
+                        <!-- <td></td> -->
+                        <!-- <td>
+                            <strong>Date</strong> : <span class="detail-restaurant-date0">2014-03-03</span> <br>
+                            <strong>Grade</strong> : <span class="detail-restaurant-grade0">A</span> <br>
+                            <strong>Score</strong> : <span class="detail-restaurant-score0">2</span> <br>
+                        </td> -->
+                    </tr>
+                    <!-- <tr>
+                        <td>
+                            <strong>Date</strong> : 2014-03-03 <br>
+                            <strong>Grade</strong> : A <br>
+                            <strong>Score</strong> : 2 <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Date</strong> : 2014-03-03 <br>
+                            <strong>Grade</strong> : A <br>
+                            <strong>Score</strong> : 2 <br>
+                        </td>
+                    </tr> -->
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div hidden class="rated-window">
+        <div class="overlay"></div>
+        <div class="reated-table">
+          <h4 class="id-table-rated">30112340</h4>
+          <h3 class="name-table-rated">Morris Park Bake Shop</h3>
+          <br>
+          <strong>Grade :<strong></strong>
+          <select required class="form-select rate-grade-select" aria-label="Default select example">
+            <option selected value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+          </select> <br>
+          <strong>Score:<strong></strong>
+          <input value=5  type="number" min="1" max="10" required class="rate-number-option"> <br> <br>
+          <input class="btn btn-primary rated-btn" type="submit" value="Đánh giá">
+        </div>
+      </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    var myParam = location.search.split('restaurantId=')[1]
+
+    function formatDate(date) {
+        newdate = date.slice(0, 10)
+        return newdate
+    }
+    
+    function getRestaurant(id) {
+        fetch(`/api/v1/restaurant/get-a-restaurant/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+        document.querySelector('.detail-restaurant-id').innerHTML = data.restaurant_id
+        document.querySelector('.nav-restaurant-id').innerHTML = data.restaurant_id
+        document.querySelector('.detail-restaurant-name').innerHTML = data.name
+        document.querySelector('.detail-restaurant-cuisine').innerHTML = data.cuisine
+        document.querySelector('.detail-restaurant-borough').innerHTML = data.borough
+        document.querySelector('.detail-restaurant-building').innerHTML = data.address.building
+        document.querySelector('.detail-restaurant-coord1').innerHTML = data.address.coord[0]
+        document.querySelector('.detail-restaurant-coord2').innerHTML = data.address.coord[1]
+        document.querySelector('.detail-restaurant-street').innerHTML = data.address.street
+        document.querySelector('.detail-restaurant-zipcode').innerHTML = data.address.zipcode
+
+        document.querySelector('.grade-row').setAttribute('rowspan', 1000)
+        //rated name
+        document.querySelector('.name-table-rated').innerHTML = data.name
+        
+      });
+    }
+    getRestaurant(myParam)
+
+    // rated
+    document.querySelector('.create-restaurant-rate-btn').addEventListener('click', openRatedWindow)
+    
+    function openRatedWindow() {
+        document.querySelector('.rated-window').removeAttribute('hidden')
+        document.querySelector('.id-table-rated').innerHTML = myParam
+    }
+
+    document.querySelector('.overlay').addEventListener('click', function () {
+    document.querySelector('.rated-window').setAttribute('hidden',"true")
+    })
+
+    //rated submit
+    // rated restaurant
+
+function submitRated(id) {
+    document.querySelector('.rated-window').removeAttribute('hidden')
+    document.querySelector('.id-table-rated').innerHTML = id
+    document.querySelector('.name-table-rated').innerHTML = document.getElementById(id).getAttribute("name")
+  }
+  
+  document.querySelector('.overlay').addEventListener('click', function () {
+    document.querySelector('.rated-window').setAttribute('hidden',"true")
+  })
+  
+  document.querySelector('.rated-btn').addEventListener('click', function () {
+    document.querySelector('.rated-window').setAttribute('hidden',"true")
+    ratedFunc(
+      document.querySelector('.id-table-rated').innerHTML,
+      document.querySelector('.rate-grade-select').value,
+      document.querySelector('.rate-number-option').value,
+    )
+  })
+  
+  function ratedFunc(id, grade, score) {
+    axios({
+          method: 'post',
+          url: `/api/v1/grade/rated/${id}/${grade}/${score}`
+      })
+      .then(function (response) {
+          console.log(response);
+          alert("Đánh giá restaurant thành công")
+          location.reload();
+      })
+      .catch(function (error) {
+          console.log(error);
+          alert("Đánh giá restaurant thất bại")
+      });
+  }
+
+  function getRating(id) {
+    axios({
+          method: 'get',
+          url: `/api/v1/grade/detail/${id}`
+      })
+      .then(function (response) {
+          console.log(response.data);
+
+          var gradeHTML = response.data.map((item, index) => {
+            return `
+                <tr>
+                    <td>
+                        <strong>Date</strong> : ${formatDate(item.date)} <br>
+                        <strong>Grade</strong> : ${item.grade} <br>
+                        <strong>Score</strong> : ${item.score} <br>
+                    </td>
+                </tr>
+            `
+        }).join('')
+
+        var table_detail_html = document.querySelector('.table-detail').innerHTML
+        document.querySelector('.table-detail').innerHTML = table_detail_html.concat(gradeHTML)
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+  }
+  getRating(myParam)
+
+    
+</script>
+</html>

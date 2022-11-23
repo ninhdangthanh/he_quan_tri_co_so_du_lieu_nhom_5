@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="sum_title">
+        <div class="sum_title-container">
+            <div class="sum_title_title_div"><a class="sum_title_title" href="/"><h2>Restaurant Management</h2></a></div>
+        </div>
+    </div>
+</body>
+<script>
+    var myParam = location.search.split('restaurantId=')[1]
+    document.querySelector('.title_detail').innerHTML = myParam
+</script>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <title>Restaurant Web</title>
+</head>
+<body>
+    
+
+  <div id="tacnghiep"></div>
+  <div class="sum_title">
+    <div class="sum_title-container">
+      <div class="sum_title_title_div"><a class="sum_title_title" href=""><h2>Restaurant Management</h2></a></div>
+      <a href="#tacnghiep" class="header_link_content">Tác nghiệp</a>
+      <a href="#timkiem"  class="header_link_content">Tìm kiếm</a>
+      <a href="#bieudo"  class="header_link_content">Biểu đồ</a>
+    </div>
+  </div>
+  <div class="container">
+      <h3>Danh sách tất cả nhà hàng</h3>
+      <form class="form-search" id="third-agg-form" action="">
+        <input type="text" placeholder="Tìm kiếm theo Name, Cuisine, Borough..." class="form-control input-text-search" id="text-search">
+
+        <div class="sort-select-3-agg-wrapper">
+          <strong>Xắp sếp theo</strong>
+          <select class="form-select sort-select-3-agg" id="sort-select-3-agg-key" aria-label="Default select example">
+            <option selected value="name">Name</option>
+            <option value="restaurant_id">Restaurant_id</option>
+          </select>
+
+          <select class="form-select sort-select-3-agg" id="sort-select-3-agg-value" aria-label="Default select example">
+            <option selected value="1">Tăng dần</option>
+            <option value="-1">Giảm dần</option>
+          </select>
+        </div>
+        
+        <div class="flex-search-add">
+          <input class="btn btn-primary btn-search-submit" type="submit" value="Tìm kiếm">
+        <div
+          data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Thêm nhà hàng" 
+          class="create-restaurant-wrapper"><a href="add.html">
+            <button 
+            type="button" class="btn btn-success create-restaurant-btn">
+              <i class="bi bi-plus-circle"></i>
+            </button></a>
+          </div>
+          
+        </div>
+        <br>
+      </form>
+      <table class="table list_restaurant">
+          <thead>
+          <tr>
+              <th class="th-bg" scope="col">Restaurant_id</th>
+              <th class="th-bg" scope="col">Name</th>
+              <th class="th-bg" scope="col">Cuisine</th>
+              <th class="th-bg" scope="col">Borough</th>
+              <th class="th-bg" scope="col">Street</th>
+              <th class="th-bg" scope="col"><i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chi tiết"  class="bi bi-info-circle"></th>
+              <th class="th-bg" scope="col"><i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Thêm đánh giá"  class="bi bi-star"></th>
+              <th class="th-bg" scope="col"><i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Sửa"  class="bi bi-pencil-square"></th>
+              <th class="th-bg" scope="col"><i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Xóa"  class="bi bi-trash"></th>
+          </tr>
+          </thead>
+          <tbody class="body_restaurant">
+              <!-- <tr>
+                  <th class="th-bg" scope="row">arrow_pagination</th>
+                  <td>Name</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                  <td>@mdo</td>
+                  <td><a href="details/id">detail res</a></td>
+                  <td><a href="edit/id">edit res</a></td>
+                  <td><a href="delete/id">del res</a></td>
+              </tr> -->
+          </tbody>
+      </table>
+      <div class="arrow_pagination">
+        <!-- <button disabled class="btn btn-outline-primary btn_prev" type="submit">Prev</button>
+        <span class="pagination_number">1</span>
+        <button class="btn btn-outline-primary btn_next" type="submit">Next</button> -->
+    </div>
+        <div id="timkiem"></div>
+        <br><br><br>
+        <div class="top_restaurant_in_month">
+          <h3>Tìm nhà hàng theo tiêu chí</h3>
+          <form action="" id="get-best-restaurant">
+            <strong>Chọn số lượng muốn tìm kiếm :</strong>
+            <input type="number" name="num-res-top-1" id="num-res-top-1" required value="3">
+            <br>
+            <strong>Chọn loại grade:</strong>
+          <!-- option checkbox -->
+            <div id="checkboxes">
+              <label for="A">
+                <input type="checkbox" class="checkbox-top-1" checked id="A" />  <strong> A </strong>  </label>
+              <label for="B">
+                <input type="checkbox" class="checkbox-top-1" id="B" />  <strong> B </strong>  </label>
+              <label for="C">
+                <input type="checkbox" class="checkbox-top-1" id="C" />  <strong> C </strong>  </label>
+              <label for="P">
+                <input type="checkbox" class="checkbox-top-1" id="P" />  <strong> P </strong>  </label>
+              <label for="Z">
+                <input type="checkbox" class="checkbox-top-1" id="Z" />  <strong> Z </strong>  </label>
+            </div>
+
+            <div id="radio_date">
+              <span><strong>Chọn loại thời gian muốn tìm kiếm:</strong></span> <br>
+              <input onClick="clickWithMonth()" checked type="radio" id="with-month" name="fav_date" value="with-month">
+              <label onClick="clickWithMonth()" for="with-month">Theo tháng</label><br>
+              <input onClick="clickWithMonth()" type="radio" id="with-date-from-to" name="fav_date" value="with-date-from-to">
+              <label onClick="clickWithMonth()" for="with-date-from-to">Theo khoảng thời gian</label><br>
+            </div> <br>
+          
+            <select class="form-select month-select" id="month-select-option" aria-label="Default select example">
+              <option selected value="1">Tháng 1</option>
+              <option value="2">Tháng 2</option>
+              <option value="3">Tháng 3</option>
+              <option value="4">Tháng 4</option>
+              <option value="5">Tháng 5</option>
+              <option value="6">Tháng 6</option>
+              <option value="7">Tháng 7</option>
+              <option value="8">Tháng 8</option>
+              <option value="9">Tháng 9</option>
+              <option value="10">Tháng 10</option>
+              <option value="11">Tháng 11</option>
+              <option value="12">Tháng 12</option>
+            </select>
+            <div class="date-from-to-form" id="date-from-to-form" hidden>
+              <label for="from">Từ ngày: </label>&nbsp
+              <input type="date" id="date-from" name="from">
+              &nbsp &nbsp
+              <label for="to">Đến ngày: </label>&nbsp
+              <input type="date" id="date-to" name="to">
+              &nbsp &nbsp <br>
+            </div>
+            <br>
+            <input class="btn btn-primary" type="submit" value="Tìm kiếm">
+          </form>
+          <br>
+          <table class="table list_restaurant">
+            <thead>
+            <tr>
+                <th class="th-bg" scope="col">Restaurant_id</th>
+                <th class="th-bg" scope="col">Name</th>
+                <th class="th-bg" scope="col">Cuisine</th>
+                <th class="th-bg" scope="col">Borough</th>
+                <th class="th-bg" scope="col">Street</th>
+                <th class="th-bg" scope="col">Số lượt đánh giá</th>
+                <th class="th-bg" scope="col"><i data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chi tiết"  class="bi bi-info-circle"></i></th>
+                <th class="th-bg" scope="col"></th>
+                <th class="th-bg" scope="col"></th>
+                <th class="th-bg" scope="col"></th>
+            </tr>
+            </thead>
+            <tbody class="body_top_rated">
+            </tbody>
+        </table>
+        <div id="bieudo"></div>
+        </div>
+
+        <!-- CHART -->
+      <div class="chart-block">
+        <h3>Biểu đồ</h3> <br>
+        <canvas id="myChart" style="width:100%;max-width:800px"></canvas>
+        <div class="chart-block-title">Tổng lượt đánh giá theo từng tháng qua tất cả các năm</div>
+        <canvas id="myChart1" style="width:100%;max-width:500px"></canvas>
+        <div>Tổng từng loại đánh giá</div>
+      </div>
+      
+    </div>
+
+  <div hidden class="rated-window">
+    <div class="overlay"></div>
+    <div class="reated-table">
+      <h4 class="id-table-rated">30112340</h4>
+      <h3 class="name-table-rated">Morris Park Bake Shop</h3>
+      <br>
+      <strong>Grade :<strong></strong>
+      <select required class="form-select rate-grade-select" aria-label="Default select example">
+        <option selected value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+      </select> <br>
+      <strong>Score:<strong></strong>
+      <input value=5  type="number" min="1" max="10" required class="rate-number-option"> <br> <br>
+      <input class="btn btn-primary rated-btn" type="submit" value="Đánh giá">
+    </div>
+  </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="index.js"></script>
+<script src="aggregate.js"></script>
+<script src="chart.js"></script>
+</html>
+
+
+

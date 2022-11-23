@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="main.css">
+    <title>Create Restaurant</title>
+    <style>
+        body {
+            font-size: 18px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            }
+            th, td {
+        padding: 10px;
+        }
+        table {
+            margin-top: 40px;
+            margin-left: 25%;
+        }
+        .navigation-in-detail {
+            font-size: 18px;
+        }
+        .create-new-restaurant {
+            margin-left: 50%;
+            transform: translateX(-50%);
+            margin-top: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sum_title">
+            <div class="sum_title-container">
+                <div class="sum_title_title_div"><a class="sum_title_title" href="/"><h2>Restaurant Management</h2></a></div>
+            </div>
+        </div>
+
+        <div class="navigation-in-detail">
+            <a href="/">Home</a>
+                /
+                Create
+        </div>
+
+        <form method="post" id="create-a-restaurant" action="">
+            <div class="res-detail-body">
+                <table style="width:50%">
+                    <tr>
+                      <th>Restaurant_id</th>
+                      <td>
+                        <input required disabled type="text" class="form-control" name="restaurant_id" id="restaurant_id">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Name</th>
+                      <td>
+                        <input required type="text" placeholder="Nhập tên (text)" class="form-control" name="name" id="name">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Cuisine</th>
+                      <td>
+                        <input required type="text" placeholder="Nhập Cuisine (text)" class="form-control" name="cuisine" id="cuisine">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Borough</th>
+                      <td>
+                        <input required type="text" placeholder="Nhập Borough (text)" class="form-control" name="borough" id="borough">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Address</th>
+                      <td>
+                        <strong>Building</strong>  <input required type="number" placeholder="Nhập Building (number)" class="form-control" name="building" id="building">
+                        <br>
+                        <strong>Coord</strong>  
+                            <input required type="number" placeholder="Nhập Coord (number)" class="form-control" name="coord1" id="coord1">
+                            <input required type="number" placeholder="Nhập Coord (number)" class="form-control" name="coord2" id="coord2">
+                        
+                        <br>
+                        <strong>Street</strong>  <input required type="text" placeholder="Nhập Street (text)" class="form-control" name="street" id="street">
+                        <br>
+                        <strong>Zipcode</strong>  <input required type="number" placeholder="Nhập Zipcode (number)" class="form-control" name="zipcode" id="zipcode">
+                      </td>
+                    </tr>
+                </table>
+                <input type="submit" class="btn btn-primary create-new-restaurant" value="Thêm Restaurant"></input>
+            </div>
+        </form>
+    </div>
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+    var restaurant_idElem = document.querySelector('#restaurant_id')
+    var nameElem = document.querySelector('#name')
+    var cuisineElem = document.querySelector('#cuisine')
+    var boroughElem = document.querySelector('#borough')
+    var buildingElem = document.querySelector('#building')
+    var coord1Elem = document.querySelector('#coord1')
+    var coord2Elem = document.querySelector('#coord2')
+    var streetElem = document.querySelector('#street')
+    var zipcodeElem = document.querySelector('#zipcode')
+
+    document.querySelector('#create-a-restaurant').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var postRestaurantData = {
+            address : {
+                building : Number(buildingElem.value),
+                coord : [
+                    Number(coord1Elem.value),
+                    Number(coord2Elem.value)
+                ],
+                street : streetElem.value,
+                zipcode : Number(zipcodeElem.value)
+            },
+            borough : boroughElem.value,
+            cuisine : cuisineElem.value,
+            name : nameElem.value,
+            restaurant_id : restaurant_idElem.value
+            }
+
+            postCreateRestaurant(postRestaurantData)
+    })
+
+    function getMaxRestaurantId() {
+      fetch(`/api/v1/restaurant/max-restaurant-id`)
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("restaurant_id").value = Number(data[0].restaurant_id) + 1
+      });
+    }
+    getMaxRestaurantId()
+    
+    function postCreateRestaurant(data) {
+        axios({
+            method: 'post',
+            url: '/api/v1/restaurant/create-a-restaurant',
+            data: data
+        })
+        .then(function (response) {
+            console.log(response);
+            var confirmSuccess = confirm("Tạo mới restaurant thành công, click OK để trở về trang chủ")
+            if(confirmSuccess) {
+                window.location.assign("/")
+            } else {
+                location.reload();
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+            var confirmFailed = confirm("Tạo mới restaurant thất bại, click OK để trở về trang chủ")
+            if(confirmFailed) {
+                window.location.assign("/")
+            } else {
+                location.reload();
+            }
+        });
+    }
+    // postCreateRestaurant()
+
+</script>
+</html>

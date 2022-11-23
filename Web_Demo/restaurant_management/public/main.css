@@ -1,0 +1,228 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container, .sum_title-container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.container {
+    padding-top: 80px;
+    background-color: white;
+    padding-left:40px ;
+    padding-right:40px ;
+}
+
+.sum_title-container {
+    display: flex;
+}
+
+.sum_title_title_div {
+    margin-right: 30px;
+    padding:  10px 0;
+}
+
+.header_link_content {
+    display: block;
+    font-size: 18px;
+    display: flex;
+    color: #000;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding: 0 30px;
+    cursor: pointer;
+}
+
+.header_link_content:hover {
+    background-color: rgb(18, 0, 213);
+    color: white;
+}
+
+.pagination_number {
+    font-size: 18;
+    font-weight: bold;
+    padding: 12px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.sum_title {
+    margin-bottom: 40px;
+    background-color: #0d6efd;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.sum_title_title {
+    color: #000;
+}
+
+.top_restaurant_in_month {
+    padding-bottom: 40px;
+}
+
+.three_restaurant_in_month {
+    padding-bottom: 40px;
+}
+
+.month-select {
+    width: 300px;
+    margin-right: 30px;
+}
+
+.form-select-month {
+    display: flex;
+}
+
+
+.input-text-search {
+    width: 500px;
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
+.form-search {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.create-restaurant-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-restaurant-btn {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.reated-table {
+    position: fixed;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    padding: 40px;
+    padding-top: 30px;
+    border-radius: 8px;
+    min-width: 400px;
+}
+
+.rated-btn {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.rated-restaurant-link {
+    cursor: pointer;
+    color: var(--bs-link-color);
+}
+
+.delete-restaurant-link {
+    cursor: pointer;
+    color: var(--bs-link-color);
+}
+
+.hover-item-restaurant:hover {
+    background-color: rgba(103, 202, 255, 0.2);
+}
+
+#checkboxes {
+    padding-bottom: 20px;
+}
+
+#checkboxes  strong {
+    margin-right: 20px;
+}
+
+#num-res-top-1, #num-res-top-month {
+    width: 100px;
+}
+
+.sort-select-3-agg {
+    margin-left: 10px;
+    width: 200px;
+}
+
+.sort-select-3-agg-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#myChart, #myChart1 {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.chart-block {
+    margin-top: 50px;
+}
+
+.chart-block-title {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
+    margin-bottom: 40px;
+}
+
+.chart-block div {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
+    padding-bottom: 40px;
+}
+
+.flex-search-add {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.header {
+padding: 10px 16px;
+background: #555;
+color: #f1f1f1;
+}
+
+.content {
+padding: 16px;
+}
+
+.sticky {
+position: fixed;
+top: 0;
+width: 100%;
+}
+
+.sticky + .content {
+padding-top: 102px;
+}
+
+body {
+    background-color: #c4c4c4;
+}
+
+.th-bg {
+    background-color: aqua !important;
+}
