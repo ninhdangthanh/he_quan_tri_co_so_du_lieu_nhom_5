@@ -4,12 +4,14 @@ var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb+srv://ninhnam:12341234@cluster0.bk54g.mongodb.net/reviews_db?retryWrites=true&w=majority";
 // var url = "mongodb://localhost:27017/";
 
+const Grade = require('../models/Grade');
+const Restaurant = require('../models/Restaurant');
+
 
 router.route('/page/:pagination').post(async (req, res) => {
     let skipNum = (req.params.pagination - 1) * 10 
     
     MongoClient.connect(url, function(err, db) {
-        console.log(req.body.textSearch)
         if (err) throw err;
         var dbo = db.db("reviews_db");
         var query = {
@@ -117,68 +119,94 @@ router.route('/delete-restaurant/:restaurantId').delete(async (req, res) => {
 })
 
 
-router.route('/1-1/best-rated').post(async (req, res) => {
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("reviews_db");
-        dbo.collection("restaurants").aggregate([
-            {$unwind: "$grades"},
-            {$match: {"grades.grade": {$in: req.body.listGrade}}},
-            //date from
-            {$match: {"grades.date": {$gte: new Date(req.body.dateFrom)}}},
-            //date to
-            {$match: {"grades.date": {$lte: new Date(req.body.dateTo)}}},
-            {$group: {_id: {name: "$name", cuisine: "$cuisine", restaurant_id: "$restaurant_id", address: "$address", borough: "$borough"}, total: {$count: {}} }},
-            {$sort: {"total": -1, "_id.name": -1}},
-            {$limit: Number(req.body.num)}
-        ]).toArray(function(err, result) {
-            if (err) throw err;
-            console.log(result)
-            res.send(result)
-            db.close();
-        });
-      });
-})
-
 router.route('/top3/best-rated-month').post(async (req, res) => {
-    const month = req.body.month;
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("reviews_db");
-        dbo.collection("restaurants").aggregate([
-            {$unwind: "$grades"},
-            {$match: {"grades.grade": {$in: req.body.listGrade}}},
+    try {
+        const month = req.body.month;
+        let listGrade = await Grade.aggregate([
+            {$match: {"grade": {$in: req.body.listGrade}}},
             {
                $project:
                  {
-                   name: "$name", 
-                   cuisine: "$cuisine", 
                    restaurant_id: "$restaurant_id", 
-                   address: "$address", 
-                   borough: "$borough", 
-                   grades: "$grades",
-                   month: { $month: "$grades.date" }
+                   month: { $month: "$date" }
                  }
              },
              {$match: {"month": Number(month)}},
-            {$group: {_id: {
-                name: "$name", 
-                cuisine: "$cuisine", 
-                restaurant_id: "$restaurant_id", 
-                address: "$address", 
-                borough: "$borough",
-                month: "$month",}, total: {$count: {}} }},
-            {$sort: {"total": -1, "_id.restaurant_id":  1}},
-            {$limit: Number(req.body.num)}
-        ]).toArray(function(err, result) {
-            if (err) throw err;
-            res.send(result)
-            db.close();
-        });
-      });
+             {$group: {_id: {
+                        restaurant_id: "$restaurant_id", 
+                        month: "$month",}, total: {$count: {}} 
+             }},
+             {$sort: {"total": -1, "_id.restaurant_id":  1}},
+             {$limit: Number(req.body.num)}
+        ])
+
+        let listResID = await listGrade.map(item => {
+            return item._id.restaurant_id
+        })
+
+        let listRestaurant = await Restaurant.find({"restaurant_id": {$in: listResID}})
+
+        let listResAndTotal = await listGrade.map(item => {
+            return {
+                restaurantId: item._id.restaurant_id,
+                total: item.total
+            }
+        })
+
+        let listResult = await listRestaurant.map((item, index) => {
+            return {
+                "_id": {
+                    ...item._doc,
+                    "month": Number(month)
+                },
+                "total": listResAndTotal[index].total
+            }
+        })
+
+        res.send(listResult)
+
+    } catch (error) {
+        console.log(error)
+    }
 })
 
+router.route('/1-1/best-rated').post(async (req, res) => {
 
+    let listGrade = await Grade.aggregate([
+        {$match: {"grade": {$in: req.body.listGrade}}},
+        //date from
+        {$match: {"date": {$gte: new Date(req.body.dateFrom)}}},
+        //date to
+        {$match: {"date": {$lte: new Date(req.body.dateTo)}}},
+        {$group: {_id: {restaurant_id: "$restaurant_id"}, total: {$count: {}} }},
+        {$sort: {"total": -1, "_id.restaurant_id": -1}},
+        {$limit: Number(req.body.num)}
+    ])
+    
+    let listResID = await listGrade.map(item => {
+        return item._id.restaurant_id
+    })
+
+    let listRestaurant = await Restaurant.find({"restaurant_id": {$in: listResID}})
+
+    let listResAndTotal = await listGrade.map(item => {
+        return {
+            restaurantId: item._id.restaurant_id,
+            total: item.total
+        }
+    })
+
+    let listResult = await listRestaurant.map((item, index) => {
+        return {
+            "_id": {
+                ...item._doc,
+            },
+            "total": listResAndTotal[index].total
+        }
+    })
+
+    res.send(listResult)
+})
 
 
 
