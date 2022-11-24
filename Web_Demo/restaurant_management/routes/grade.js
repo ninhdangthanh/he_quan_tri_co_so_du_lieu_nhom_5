@@ -1,8 +1,6 @@
 const express = require('express');
 var mongoose = require('mongoose');
 const router = express.Router()
-// var url = "mongodb+srv://ninhnam:12341234@cluster0.bk54g.mongodb.net/reviews_db?retryWrites=true&w=majority";
-// var url = "mongodb://localhost:27017/";
 
 const Grade = require('../models/Grade');
 

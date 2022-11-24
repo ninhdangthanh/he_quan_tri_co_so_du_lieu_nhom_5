@@ -2,6 +2,7 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser')
+require('dotenv').config();
 
 const restaurantRouter = require('./routes/restaurant');
 const gradeRouter = require('./routes/grade');
@@ -17,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api/v1/restaurant', restaurantRouter);
 app.use('/api/v1/grade', gradeRouter);
 
-const port = 3000;
-var url = "mongodb+srv://ninhnam:12341234@cluster0.bk54g.mongodb.net/hequantricsdl?retryWrites=true&w=majority";
+const port = process.env.PORT || 3000;
+var url = process.env.MONGO_URI;
 
 const start = async () => {
   try {

@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb+srv://ninhnam:12341234@cluster0.bk54g.mongodb.net/reviews_db?retryWrites=true&w=majority";
-// var url = "mongodb://localhost:27017/";
+require('dotenv').config();
+
+var url = process.env.MONGO_URI;
 
 const Grade = require('../models/Grade');
 const Restaurant = require('../models/Restaurant');
@@ -159,8 +160,13 @@ router.route('/top3/best-rated-month').post(async (req, res) => {
                     ...item._doc,
                     "month": Number(month)
                 },
-                "total": listResAndTotal[index].total
+                "total": (listResAndTotal.find(res => res.restaurantId == item._doc.restaurant_id)).total
             }
+        })
+
+
+        listResult = listResult.sort(function (a, b) {
+            return b.total - a.total
         })
 
         res.send(listResult)
@@ -201,8 +207,12 @@ router.route('/1-1/best-rated').post(async (req, res) => {
             "_id": {
                 ...item._doc,
             },
-            "total": listResAndTotal[index].total
+            "total": (listResAndTotal.find(res => res.restaurantId == item._doc.restaurant_id)).total
         }
+    })
+
+    listResult = listResult.sort(function (a, b) {
+        return b.total - a.total
     })
 
     res.send(listResult)
