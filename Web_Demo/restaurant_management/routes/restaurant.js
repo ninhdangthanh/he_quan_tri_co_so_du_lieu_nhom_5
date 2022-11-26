@@ -14,7 +14,7 @@ router.route('/page/:pagination').post(async (req, res) => {
     
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("reviews_db");
+        var dbo = db.db("hequantricsdl");
         var query = {
             $or: [
                 {name: new RegExp(req.body.textSearch, "i")},
@@ -36,7 +36,7 @@ router.route('/page/:pagination').post(async (req, res) => {
 router.route('/max-restaurant-id').get(async (req, res) => {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("reviews_db");
+        var dbo = db.db("hequantricsdl");
         dbo.collection("restaurants").find({}).sort({"restaurant_id": -1}).limit(1).toArray(function(err, result) {
             if (err) throw err;
             res.send(result)
@@ -50,7 +50,7 @@ router.route('/create-a-restaurant').post(async (req, res) => {
     try {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("reviews_db");
+            var dbo = db.db("hequantricsdl");
             var myObj = req.body
             dbo.collection("restaurants").insertOne(myObj, function(err, res) {
                 if (err) throw err;
@@ -68,7 +68,7 @@ router.route('/get-a-restaurant/:restaurantId').get(async (req, res) => {
     try {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("reviews_db");
+            var dbo = db.db("hequantricsdl");
             var query = {"restaurant_id" : req.params.restaurantId};
             dbo.collection("restaurants").find(query).toArray(function(err, result) {
                 if (err) throw err;
@@ -86,7 +86,7 @@ router.route('/update-restaurant/:restaurantId').put(async (req, res) => {
     try {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("reviews_db");
+            var dbo = db.db("hequantricsdl");
             var myquery = { restaurant_id: req.params.restaurantId };
             var newvalues = { $set: req.body };
             dbo.collection("restaurants").updateOne(myquery, newvalues, function(err, res) {
@@ -105,7 +105,7 @@ router.route('/delete-restaurant/:restaurantId').delete(async (req, res) => {
     try {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("reviews_db");
+            var dbo = db.db("hequantricsdl");
             var myquery = { restaurant_id: req.params.restaurantId };
             dbo.collection("restaurants").deleteOne(myquery, function(err, obj) {
                 if (err) throw err;
